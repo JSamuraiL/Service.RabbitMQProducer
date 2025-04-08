@@ -4,7 +4,7 @@ namespace Service.RabbitMQProducer.API.Controllers
 {
     [Route("api/student/produce")]
     [ApiController]
-    public class StudentProducer : ControllerBase
+    public class StudentsProducer : ControllerBase
     {
     }
 }
