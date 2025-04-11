@@ -4,6 +4,9 @@ namespace Service.RabbitMQProducer.Domain.Interfaces
 {
     public interface IStudentsProducerService
     {
-        Task PublishStudent(string queueName, object message);
+        public Task<byte[]> PublishStudentAsync(
+        string queueName,
+        object message,
+        CancellationToken cancellationToken = default);
     }
 }

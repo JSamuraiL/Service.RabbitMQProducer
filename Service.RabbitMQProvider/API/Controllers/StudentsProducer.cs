@@ -16,13 +16,22 @@ namespace Service.RabbitMQProducer.API.Controllers
         }
 
         [HttpPost("export-student-card")]
-        public async Task<IActionResult> ExportProducer([FromBody] object request,
-        [FromQuery] string queueName = "student_export_queue") 
+        public async Task<IActionResult> ExportStudentCard(
+            [FromBody] object request,
+            [FromQuery] string queueName = "student_export_queue") 
         {
             try
             {
-                await studentsProducerService.PublishStudent(queueName, request);
-                return Ok($"Объект/ы добавлены в очередь {queueName}");
+                await studentsProducerService.PublishStudentAsync(queueName, request);
+                return Ok($"Объект/ы добавлены в очередь: {queueName}");
+            }
+            catch (OperationCanceledException ex)
+            {
+                return StatusCode(499, "Client closed request");
+            }
+            catch (TimeoutException ex)
+            {
+                return StatusCode(504, "Service timeout");
             }
             catch (Exception ex) 
             {
